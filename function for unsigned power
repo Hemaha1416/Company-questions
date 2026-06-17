@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+double power(double x, unsigned int n, int *mult_count) {
+    *mult_count = 0; // Initialize multiplication counter
+    
+    if (n == 0) {
+        return 1.0;  // 0 multiplications used
+    }
+    
+    double res;
+    // Fast forward to the first set bit to avoid multiplying by 1.0
+    while ((n & 1) == 0) {
+        x = x * x;
+        (*mult_count)++;
+        n >>= 1;
+    }
+    
+    res = x; // Initialize result with the first active power of x
+    n >>= 1;
+    
+    // Process the remaining bits
+    while (n > 0) {
+        x = x * x; // Square the base
+        (*mult_count)++;
+        
+        if (n & 1) {
+            res = res * x; // Multiply into result
+            (*mult_count)++;
+        }
+        n >>= 1;
+    }
+    
+    return res;
+}
+
+int main() {
+    double x = 2.0;
+    unsigned int n = 5;
+    int multiplications = 0;
+    
+    double result = power(x, n, &multiplications);
+    
+    printf("Result of %.2f^%u = %.2f\n", x, n, result);
+    printf("Number of multiplications used: %d\n", multiplications);
+    
+    return 0;
+}

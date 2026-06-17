@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_ELEMENTS 1000
+
+// Function to print the current state of the array
+void print_array(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d", arr[i]);
+        if (i < size - 1) {
+            printf(" ");
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[MAX_ELEMENTS];
+    int n = 0;
+    char input[5000];
+
+    // Read the entire line of input
+    if (fgets(input, sizeof(input), stdin) == NULL) {
+        return 0;
+    }
+
+    // Parse integers from the string into the array
+    char *token = strtok(input, " \t\n");
+    while (token != NULL && n < MAX_ELEMENTS) {
+        arr[n++] = atoi(token);
+        token = strtok(NULL, " \t\n");
+    }
+
+    // Print the initial array
+    print_array(arr, n);
+
+    // Process until only one element is left
+    while (n > 1) {
+        int next_size = 0;
+        
+        // Sum elements in pairs
+        for (int i = 0; i < n; i += 2) {
+            if (i + 1 < n) {
+                // Pair exists, sum them
+                arr[next_size++] = arr[i] + arr[i + 1];
+            } else {
+                // Lone element at the end, carry it over as-is
+                arr[next_size++] = arr[i];
+            }
+        }
+        
+        n = next_size; // Update current array size
+        print_array(arr, n); // Print the updated array
+    }
+
+    return 0;
+}

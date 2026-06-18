@@ -1,0 +1,58 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+        
+        // Input validation for array size
+        if (size <= 0) {
+            System.out.println("Array size must be a positive integer.");
+            scanner.close();
+            return;
+        }
+        
+        int[] numbers = new int[size];
+        System.out.println("Enter " + size + " integers:");
+        for (int i = 0; i < size; i++) {
+            numbers[i] = scanner.nextInt();
+        }
+        
+        // Perform calculations
+        calculateArrayStats(numbers);
+        
+        scanner.close();
+    }
+
+    public static void calculateArrayStats(int[] arr) {
+        // Initialize tracking variables
+        int sum = 0;
+        int max = arr[0]; // Start by assuming the first element is the largest
+        int min = arr[0]; // Start by assuming the first element is the smallest
+        
+        // Loop through the array once to calculate all metrics (O(n) time efficiency)
+        for (int num : arr) {
+            sum += num;
+            
+            if (num > max) {
+                max = num;
+            }
+            if (num < min) {
+                min = num;
+            }
+        }
+        
+        // Cast sum to double to get accurate decimal places for the average
+        double average = (double) sum / arr.length;
+        
+        // Display the calculated results
+        System.out.println("\n--- Array Statistics ---");
+        System.out.println("Sum           : " + sum);
+        System.out.printf("Average       : %.2f\n", average);
+        System.out.println("Maximum Value : " + max);
+        System.out.println("Minimum Value : " + min);
+        System.out.println("------------------------");
+    }
+}

@@ -1,0 +1,40 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+        
+        countCharacterFrequency(input);
+        
+        scanner.close();
+    }
+
+    public static void countCharacterFrequency(String str) {
+        // Map to store character (Key) and its occurrence count (Value)
+        Map<Character, Integer> charMap = new HashMap<>();
+
+        // Convert string to character array and loop through it
+        for (char ch : str.toCharArray()) {
+            // If character is already in the map, increment its count by 1
+            // If not, put it in the map with an initial count of 1
+            charMap.put(ch, charMap.getOrDefault(ch, 0) + 1);
+        }
+
+        // Display the results
+        System.out.println("\n--- Character Frequencies ---");
+        for (Map.Entry<Character, Integer> entry : charMap.entrySet()) {
+            // Visual helper to make spaces readable in the output
+            if (entry.getKey() == ' ') {
+                System.out.println("[Space] : " + entry.getValue());
+            } else {
+                System.out.println("'" + entry.getKey() + "'     : " + entry.getValue());
+            }
+        }
+        System.out.println("-----------------------------");
+    }
+}

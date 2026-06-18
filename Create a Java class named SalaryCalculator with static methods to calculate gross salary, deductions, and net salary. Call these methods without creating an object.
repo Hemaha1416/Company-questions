@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+// Helper class containing the static calculation logic
+class SalaryCalculator {
+    
+    // Calculates gross salary: basic pay + allowances (e.g., 40% of basic)
+    public static double calculateGross(double basicPay) {
+        double allowances = basicPay * 0.40; 
+        return basicPay + allowances;
+    }
+
+    // Calculates total deductions (e.g., 12% provident fund + 2% tax)
+    public static double calculateDeductions(double basicPay) {
+        double providentFund = basicPay * 0.12;
+        double tax = basicPay * 0.02;
+        return providentFund + tax;
+    }
+
+    // Calculates net salary by subtracting deductions from gross salary
+    public static double calculateNet(double gross, double deductions) {
+        return gross - deductions;
+    }
+}
+
+// Main execution class (Save this in a file named Main.java)
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the Basic Salary: ");
+        double basicSalary = scanner.nextDouble();
+        
+        // Calling static methods directly using the Class Name (No object creation)
+        double grossSalary = SalaryCalculator.calculateGross(basicSalary);
+        double totalDeductions = SalaryCalculator.calculateDeductions(basicSalary);
+        double netSalary = SalaryCalculator.calculateNet(grossSalary, totalDeductions);
+        
+        // Displaying the breakdown
+        System.out.println("\n--- Salary Breakdown ---");
+        System.out.printf("Basic Salary:    $%.2f\n", basicSalary);
+        System.out.printf("Gross Salary:    $%.2f\n", grossSalary);
+        System.out.printf("Deductions:      $%.2f\n", totalDeductions);
+        System.out.printf("Net Pay Salary:  $%.2f\n", netSalary);
+        System.out.println("------------------------");
+        
+        scanner.close();
+    }
+}

@@ -1,0 +1,40 @@
+import java.util.LinkedHashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter a sentence: ");
+        String inputSentence = scanner.nextLine();
+        
+        String result = removeDuplicateWords(inputSentence);
+        System.out.println("Resulting sentence: " + result);
+        
+        scanner.close();
+    }
+
+    public static String removeDuplicateWords(String sentence) {
+        // Handle empty or null inputs safely
+        if (sentence == null || sentence.trim().isEmpty()) {
+            return "";
+        }
+
+        // Split the sentence into words using spaces as the boundary delimiter
+        // "\\s+" handles single spaces as well as multiple consecutive spaces
+        String[] words = sentence.split("\\s+");
+        
+        // LinkedHashSet keeps elements unique and preserves the insertion order
+        Set<String> uniqueWords = new LinkedHashSet<>();
+        
+        for (String word : words) {
+            // Converts to lowercase for comparison to ensure case-insensitive matching
+            // Remove punctuation if you want to clean words like "Java," or "Java."
+            uniqueWords.add(word); 
+        }
+        
+        // Join the unique words back into a single sentence separated by spaces
+        return String.join(" ", uniqueWords);
+    }
+}

@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+class Book {
+    // Private instance variables for individual book details
+    private String title;
+    private String author;
+
+    // Static variable shared across ALL instances to track the total count
+    private static int totalBookCount = 0;
+
+    // Constructor: Called whenever a new Book object is created
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        
+        // Increment the shared global count
+        totalBookCount++;
+        
+        // Display the update immediately
+        System.out.println("-> Successfully added: \"" + title + "\" by " + author);
+        System.out.println("-> Total books in library: " + totalBookCount + "\n");
+    }
+
+    // Static method to get the current total from outside the class
+    public static int getTotalBookCount() {
+        return totalBookCount;
+    }
+}
+
+// Main execution class (Save as Main.java)
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== Library Inventory Tracker ===");
+        System.out.println("Type 'exit' as the book title to stop adding books.\n");
+        
+        while (true) {
+            System.out.print("Enter book title: ");
+            String title = scanner.nextLine().trim();
+            
+            // Check if the user wants to quit
+            if (title.equalsIgnoreCase("exit")) {
+                break;
+            }
+            
+            System.out.print("Enter book author: ");
+            String author = scanner.nextLine().trim();
+            
+            // Create a new Book object (this automatically increments and displays the count)
+            new Book(title, author);
+        }
+        
+        // Final summary using the static getter method
+        System.out.println("=================================");
+        System.out.println("Library tracking closed.");
+        System.out.println("Final inventory count: " + Book.getTotalBookCount() + " books.");
+        System.out.println("=================================");
+        
+        scanner.close();
+    }
+}

@@ -1,0 +1,114 @@
+import java.util.Scanner;
+
+class OnlineShopping {
+
+    // 1. Purchase by product name only (Assumes default quantity = 1, discount = 0%)
+    public void purchase(String productName) {
+        double pricePerUnit = fetchPrice(productName);
+        int quantity = 1;
+        double finalAmount = pricePerUnit * quantity;
+        
+        printInvoice(productName, quantity, pricePerUnit, 0.0, finalAmount);
+    }
+
+    // 2. Purchase by product name and quantity (Assumes default discount = 0%)
+    public void purchase(String productName, int quantity) {
+        double pricePerUnit = fetchPrice(productName);
+        double finalAmount = pricePerUnit * quantity;
+        
+        printInvoice(productName, quantity, pricePerUnit, 0.0, finalAmount);
+    }
+
+    // 3. Purchase by product name, quantity, and discount code
+    public void purchase(String productName, int quantity, String discountCode) {
+        double pricePerUnit = fetchPrice(productName);
+        double initialAmount = pricePerUnit * quantity;
+        
+        // Match discount codes to reduction percentages
+        double discountPercentage = 0.0;
+        if (discountCode.equalsIgnoreCase("WELCOME10")) {
+            discountPercentage = 10.0;
+        } else if (discountCode.equalsIgnoreCase("FESTIVE20")) {
+            discountPercentage = 20.0;
+        }
+        
+        double discountDeduction = initialAmount * (discountPercentage / 100);
+        double finalAmount = initialAmount - discountDeduction;
+        
+        printInvoice(productName, quantity, pricePerUnit, discountPercentage, finalAmount);
+    }
+
+    // Helper method acting as a mock product price catalog
+    private double fetchPrice(String productName) {
+        switch (productName.toLowerCase().trim()) {
+            case "laptop":   return 1200.00;
+            case "mobile":   return 600.00;
+            case "sneakers": return 150.00;
+            default:         return 25.00; // Standard price for unlisted items
+        }
+    }
+
+    // Helper method to display clean transaction statements
+    private void printInvoice(String item, int qty, double unitPrice, double discountPct, double netTotal) {
+        System.out.println("\n==================================");
+        System.out.println("        TRANSACTION RECEIPT       ");
+        System.out.println("==================================");
+        System.out.printf(" Product Name    : %s\n", item);
+        System.out.printf(" Ordered Qty     : %d\n", qty);
+        System.out.printf(" Unit Retail     : $%.2f\n", unitPrice);
+        
+        if (discountPct > 0) {
+            System.out.printf(" Promo Discount  : %.1f%% OFF\n", discountPct);
+        } else {
+            System.out.println(" Promo Discount  : None Applied");
+        }
+        
+        System.out.println("----------------------------------");
+        System.out.printf(" Net Total Paid  : $%.2f\n", netTotal);
+        System.out.println("==================================\n");
+    }
+}
+
+// Main execution gateway
+public class Main {
+    public static void main(String[] args) {
+        Scanner inputReader = new Scanner(System.in);
+        OnlineShopping store = new OnlineShopping();
+        
+        System.out.println("=== Welcome to the Terminal Shopping App ===");
+        System.out.println("Inventory Catalog: Laptop ($1200) | Mobile ($600) | Sneakers ($150)");
+        
+        // Accept common user choices
+        System.out.print("\nEnter item name: ");
+        String product = inputReader.nextLine();
+        
+        System.out.print("Enter quantity (or leave empty to default to 1): ");
+        String quantityText = inputReader.nextLine().trim();
+        
+        System.out.print("Enter promo code (or leave empty for no discount): ");
+        String promo = inputReader.nextLine().trim();
+        
+        // Dynamically invoke overloaded method signatures based on parameter criteria
+        if (quantityText.isEmpty() && promo.isEmpty()) {
+            // Evaluates to requirement #1 (Product Name Only)
+            store.purchase(product);
+        } 
+        else if (!quantityText.isEmpty() && promo.isEmpty()) {
+            // Evaluates to requirement #2 (Product Name + Quantity)
+            int quantity = Integer.parseInt(quantityText);
+            store.purchase(product, quantity);
+        } 
+        else if (!quantityText.isEmpty() && !promo.isEmpty()) {
+            // Evaluates to requirement #3 (Product Name + Quantity + Discount Code)
+            int quantity = Integer.parseInt(quantityText);
+            store.purchase(product, quantity, promo);
+        } 
+        else {
+            // Corner-case handler: User skips quantity but provides a code (Quantity defaults to 1)
+            store.purchase(product, 1, promo);
+        }
+        
+        inputReader.close();
+    }
+}
+VVVVVVVVVVVVVV

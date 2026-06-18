@@ -1,0 +1,94 @@
+import java.util.Scanner;
+
+class MobileRecharge {
+    // Instance variables to store plan details
+    private double amount;
+    private int validityDays;
+    private String dataPack;
+
+    // 1. Recharge with amount only (Defaults: 28 days validity, No extra data)
+    public MobileRecharge(double amount) {
+        this.amount = amount;
+        this.validityDays = 28; // Standard network default
+        this.dataPack = "None (Talktime Only)";
+    }
+
+    // 2. Recharge with amount and validity (Default: No extra data)
+    public MobileRecharge(double amount, int validityDays) {
+        this.amount = amount;
+        this.validityDays = validityDays;
+        this.dataPack = "None (Talktime Only)";
+    }
+
+    // 3. Recharge with amount, validity, and data pack
+    public MobileRecharge(double amount, int validityDays, String dataPack) {
+        this.amount = amount;
+        this.validityDays = validityDays;
+        this.dataPack = dataPack;
+    }
+
+    // Method to display transaction and plan details
+    public void displayRechargeDetails() {
+        System.out.println("\n==================================");
+        System.out.println("     RECHARGE SUCCESSFUL          ");
+        System.out.println("==================================");
+        System.out.printf(" Recharge Amount : ₹%.2f\n", this.amount);
+        System.out.printf(" Plan Validity   : %d Days\n", this.validityDays);
+        System.out.printf(" Data Benefits   : %s\n", this.dataPack);
+        System.out.println("==================================\n");
+    }
+}
+
+// Main execution class
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== Mobile Recharge Portal ===");
+        System.out.println("1. Top-up (Amount Only)");
+        System.out.println("2. Validity Plan (Amount + Validity)");
+        System.out.println("3. Combo Pack (Amount + Validity + Data)");
+        System.out.print("Select your choice (1-3): ");
+        int choice = scanner.nextInt();
+        
+        // Handle menu options and invoke the correct overloaded constructor
+        switch (choice) {
+            case 1:
+                System.out.print("Enter recharge amount (₹): ");
+                double amt1 = scanner.nextDouble();
+                // Calls Constructor 1
+                MobileRecharge plan1 = new MobileRecharge(amt1);
+                plan1.displayRechargeDetails();
+                break;
+                
+            case 2:
+                System.out.print("Enter recharge amount (₹): ");
+                double amt2 = scanner.nextDouble();
+                System.out.print("Enter validity (days): ");
+                int val2 = scanner.nextInt();
+                // Calls Constructor 2
+                MobileRecharge plan2 = new MobileRecharge(amt2, val2);
+                plan2.displayRechargeDetails();
+                break;
+                
+            case 3:
+                System.out.print("Enter recharge amount (₹): ");
+                double amt3 = scanner.nextDouble();
+                System.out.print("Enter validity (days): ");
+                int val3 = scanner.nextInt();
+                scanner.nextLine(); // Consume leftover newline character
+                System.out.print("Enter data pack (e.g., 2GB/Day, 50GB Lumpsum): ");
+                String data3 = scanner.nextLine();
+                // Calls Constructor 3
+                MobileRecharge plan3 = new MobileRecharge(amt3, val3, data3);
+                plan3.displayRechargeDetails();
+                break;
+                
+            default:
+                System.out.println("Invalid choice selection.");
+                break;
+        }
+        
+        scanner.close();
+    }
+}
